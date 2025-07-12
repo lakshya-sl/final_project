@@ -1,0 +1,427 @@
+    :root {
+      --primary: #00000000;
+      --dark: #111;
+      --card-bg: #00000000;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Arial', sans-serif;
+      color: white;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    
+    .video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      overflow: hidden;
+    }
+    
+    .video-bg {
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: cover;
+    }
+    
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #00000000;
+      z-index: -1;
+    }
+    
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #00000000;
+      padding: 15px 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+   
+    }
+    
+    nav a {
+      font-family: "Comic Sans MS";
+      color: white;
+      text-decoration: none;
+      margin: 0 20px;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+    
+    nav a:hover {
+      background: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(248, 132, 1, 0.4);
+    }
+    
+    section {
+      min-height: 100vh;
+      padding: 100px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+    
+    h1 {
+      font-size: 3rem;
+      font-family: "Comic Sans MS";
+      margin-bottom: 20px;
+      text-shadow: 0 5px 15px rgba(248, 132, 1, 0.4);
+    }
+    
+    p {
+      max-width: 600px;
+      font-family: "Comic Sans MS";
+      margin-bottom: 30px;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    
+    .features {
+      font-family: "Comic Sans MS";
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 50px;
+      perspective: 1000px;
+    }
+    
+    .feature-card {
+      font-family: "Comic Sans MS";
+      width: 250px;
+      height: 350px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.5s;
+      cursor: pointer;
+    }
+    
+    .feature-card:hover {
+      transform: rotateY(180deg);
+    }
+    
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(248, 132, 1, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .card-front {
+      background: var(--card-bg);
+      transform: rotateY(0deg);
+    }
+    
+    .card-back {
+      background: var(--primary);
+      transform: rotateY(180deg);
+      box-shadow: 0 5px 0 rgba(248, 132, 1, 0.4),
+                  0 10px 20px rgba(0,173,238,0.3);
+    }
+    
+    .feature-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .feature-card h3 {
+      margin-bottom: 15px;
+      color: white;
+    }
+    
+    .feature-card p {
+      color: #eee;
+      font-size: 0.9rem;
+    }
+    
+    
+    .btn-3d {
+      background: var(--primary);
+      font-family: "Comic Sans MS";
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 0 rgba(248, 132, 1, 0.4),
+                  0 10px 20px rgba(0,173,238,0.3);
+    }
+    
+    .btn-3d:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 0 rgba(0,100,150,0.5),
+                  0 15px 25px rgba(0,173,238,0.4);
+    }
+    
+    .btn-3d:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 rgba(0,100,150,0.5),
+                  0 5px 10px rgba(0,173,238,0.3);
+    }
+
+    .chatbot-icon {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 70px;
+      height: 70px;
+      background: radial-gradient(circle at top left, #ffffff, #ffffff);
+      border-radius: 50%;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      animation: floatBot 4s ease-in-out infinite;
+      z-index: 999;
+    }
+
+    .chatbot-icon img {
+      width: 60%;
+      height: 60%;
+      filter: drop-shadow(0 0 5px white);
+    }
+
+    @keyframes floatBot {
+      0%, 100% {
+        transform: translateY(0) rotate(0);
+      }
+      50% {
+        transform: translateY(-8px) rotate(5deg);
+      }
+    }
+
+    .chat-window {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      width: 300px;
+      height: 600px;
+      border-radius: 20px;
+      overflow: hidden;
+      display: none;
+      flex-direction: column;
+      z-index: 9999;
+      background: transparent;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .chat-header {
+      font-family: "Comic Sans MS";
+      background: #ffffff;
+      color: rgb(117, 39, 3);
+      padding: 10px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .chat-body {
+      display: flex;
+      color: #111;
+      flex-direction: column;
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      font-size: 16px;
+      background: #f2be6f;
+    }
+
+    .typing-indicator {
+      font-style: "Comic Sans MS";
+      color: #ffffff;
+      margin-top: 10px;
+    }
+
+    .chat-input {
+      background: #111;
+      display: flex;
+      border-top: 1px solid #111;
+    }
+
+    .chat-input input {
+      color: #111;
+      font-family: "Comic Sans MS";
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+
+    .chat-input button {
+      font-family: "Comic Sans MS";
+      padding: 10px;
+      background: #ffffff;
+      color: #111;
+      border: none;
+      cursor: pointer;
+    }
+    
+    
+    @media (max-width: 768px) {
+      .features {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      nav a {
+        margin: 0 10px;
+        font-size: 0.9rem;
+      }
+    }
+    .about{
+      font-family: "Comic Sans MS";
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 50px;
+      perspective: 1000px;
+    }
+    
+    .about-card {
+      font-family: "Comic Sans MS";
+      width: 250px;
+      height: 350px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.5s;
+      cursor: pointer;
+    }
+    
+    .about-card:hover {
+      transform: rotateY(180deg);
+    }
+    
+    .about-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .about-card h4 {
+      margin-bottom: 15px;
+      color: white;
+    }
+    
+    .about-card p {
+      color: #eee;
+      font-size: 0.9rem;
+    }
+    /* 🎬 Background video inside chat */
+.chat-bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* ☁️ Overlay for content */
+.chat-overlay {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;
+ ; /* Optional blur */
+}
+
+/* 🗨️ Chat UI layered on video */
+.chat-header,
+.chat-body,
+.chat-input {
+  background: #00000000; /* Transparent white */
+}
+
+.chat-header {
+  font-family: "Comic Sans MS";
+  color: rgb(117, 39, 3);
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+  background: #ffffff;
+}
+
+.chat-body {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  font-size: 16px;
+  color: black;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-input {
+  display: flex;
+  border-top: 1px solid #00000000;
+}
+
+.chat-input input {
+  color: black;
+  font-family: "Comic Sans MS";
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+}
+
+.chat-input button {
+  font-family: "Comic Sans MS";
+  padding: 10px;
+  background: #ffffff;
+  color: black;
+  border: none;
+  cursor: pointer;
+}
+
+    

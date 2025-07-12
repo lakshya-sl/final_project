@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Animated Auth Page</title>
+
+  <!-- ✅ Google Sign-In (only if you configure it) -->
+  <!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/login_page/page.css">
+</head>
+<body>
+  <!-- ✅ Correct video path -->
+  <div class="video-container">
+    <video class="video-bg" autoplay muted loop>
+      <source src="/login_page/videos/132809-754938470.mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video>
+  </div>
+  <div class="overlay"></div>
+
+  <div class="auth-container" id="authBox">
+    <h2 id="formTitle">Welcome Back</h2>
+    <form id="authForm">
+      <input type="text" id="name" placeholder="Full Name" style="display: none" />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit" id="submitButton">Sign In</button>
+      <p id="message"></p>
+    </form>
+
+    <div class="toggle-btn">
+      <span id="toggleText">Don’t have an account?</span>
+      <button id="toggleMode">Sign up</button>
+    </div>
+
+    <!-- ❌ Remove Google login for now unless it's configured -->
+    <!-- 
+    <div class="google-login-wrapper">
+      <div id="g_id_onload"
+          data-client_id="YOUR_CLIENT_ID_HERE"
+          data-context="signin"
+          data-ux_mode="popup"
+          data-callback="handleGoogleLogin"
+          data-auto_prompt="false">
+      </div>
+
+      <div class="g_id_signin"
+          data-type="standard"
+          data-shape="rectangular"
+          data-theme="outline"
+          data-text="sign_in_with"
+          data-size="large"
+          data-logo_alignment="left">
+      </div>
+    </div>
+    -->
+  </div>
+
+  <!-- ✅ Link JS correctly -->
+  <script src="/login_page/page.js" defer></script>
+</body>
+</html>
