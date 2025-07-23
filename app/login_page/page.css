@@ -46,7 +46,7 @@
       .auth-container {
         width: 350px;
         padding: 40px;
-        background: white;
+        background: #FFFFFF80;
         border-radius: 20px;
         box-shadow: 0 5px 0 rgba(0,100,150,0.5),
                     0 10px 20px rgba(0,173,238,0.3);
