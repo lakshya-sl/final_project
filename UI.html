@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stock Dashboard UI</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="UI.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-gauge-v3"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+  <div class="video-container">
+    <video class="video-bg" autoplay muted loop>
+      <source src="../videos/204292-923909617_tiny (1).mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video>
+  </div>
+  <div class="overlay"></div>
+  <div class="flex h-screen">
+    <aside class="w-64 bg-black bg-opacity-0 p-4 overflow-y-auto scrollbar-hide">
+      <div class="mb-4">
+        <img src="/videos/logo.png" alt="Logo" class="px-6 h-20 mx-auto" />
+      </div>
+      <input type="text" placeholder="Search US Stocks" class="w-full px-3 py-1 mb-4 rounded bg-white-700 text-black" />
+      <button class="w-full bg-black bg-opacity py-1 rounded hover:bg-blue-700 transition button-3d">SEARCH</button>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto p-6 scrollbar-hide">
+      <div class="flex space-x-4 mb-6">
+        <button onclick="showSection('charting')" class=" px-4 py-2 bg-black bg-opacity-0 rounded hover:bg-blue-600  transition button-3d ">CHARTING TOOLS</button>
+        <button onclick="showSection('portfolio')" class="px-4 py-2 bg-black bg-opacity-0 rounded hover:bg-blue-600 transition button-3d">PORTFOLIO</button>
+        <button onclick="showSection('screener')" class="px-4 py-2 bg-black bg-opacity-0 rounded hover:bg-blue-600 transition button-3d">STOCK SCREENER</button>
+        <button onclick="showSection('technical')" class="px-4 py-2 bg-black bg-opacity-0 rounded hover:bg-blue-600 transition button-3d">TECHNICAL ANALYSIS</button>
+        <button onclick="showSection('stories')" class="px-4 py-2 bg-black bg-opacity-0 rounded hover:bg-blue-600 transition button-3d">TOP STORIES</button>
+      </div>
+
+      <div id="technical" class="text-4xl mb-4 hidden bg-black bg-opacity-0 p-8 rounded-lg h-full">Technical Analysis Section : </div>
+      <div id="stories" class="hidden bg-black bg-opacity-20 p-6 rounded-lg h-full overflow-y-auto">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-4xl font-bold text-white">Top Stories</h2>
+        </div>
+        <div id="storiesContent" class="space-y-4"></div>
+        <div class="text-center mt-4">
+          <button id="loadMoreStoriesBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Load More Stories</button>
+        </div>
+      </div>
+
+      <div id="portfolio" class="text-sm hidden bg-black bg-opacity-0 p-4 rounded-lg h-full">
+        <h2 class="text-2xl font-bold mb-4 text-white">Your Portfolio</h2>
+        <div class="flex justify-between mb-4">
+          <div class="text-blue-400 font-semibold">TOTAL BALANCE: <span id="totalBalance" class="text-green-400">$0.00</span></div>
+          <div class="text-green-400 font-semibold">TOTAL PROFIT/LOSS: <span id="totalPnL">$0.00</span></div>
+        </div>
+        <table class="min-w-full text-sm text-white border border-gray-600 rounded-lg overflow-hidden">
+          <thead class="bg-gray-800 text-gray-300">
+            <tr>
+              <th class="p-3 text-left">ID</th>
+              <th class="p-3 text-left">STOCK SYMBOL</th>
+              <th class="p-3 text-left">STOCK NAME</th>
+              <th class="p-3 text-left">ORDER TYPE</th>
+              <th class="p-3 text-left">ORDER MODE</th>
+              <th class="p-3 text-left">QUANTITY</th>
+              <th class="p-3 text-left">PRICE AT TRANSACTION</th>
+              <th class="p-3 text-left">LIVE PRICE</th>
+              <th class="p-3 text-left">PROFIT/LOSS</th>
+              <th class="p-3 text-left">DATE/TIME</th>
+            </tr>
+          </thead>
+          <tbody id="portfolioTableBody" class="divide-y divide-gray-700"></tbody>
+        </table>
+      </div>
+
+      <div id="charting" class="hidden bg-black bg-opacity-0 p-4 rounded-lg h-full">
+        <h2 class="text-2xl font-bold mb-4 text-white">Charting Tools</h2>
+      
+        <div class="bg-gray-900 rounded-lg p-4">
+          <div id="tradingview-widget-container" class="w-full h-[600px]">
+            <div id="tradingview_advanced_chart"></div>
+          </div>
+        </div>
+      
+        <div class="mt-6 bg-gray-800 p-4 rounded-lg">
+          <h3 class="text-xl mb-4">Trade Panel</h3>
+          <form id="chartTradeForm" class="flex flex-wrap gap-4 items-end">
+            <div>
+              <label for="chartSymbol" class="block mb-1 text-sm">Ticker</label>
+              <input id="chartSymbol" type="text" placeholder="AAPL" class="px-3 py-2 rounded text-black" required />
+            </div>
+            <div>
+              <label for="chartQuantity" class="block mb-1 text-sm">Quantity</label>
+              <input id="chartQuantity" type="number" min="1" value="1" class="px-3 py-2 rounded text-black" required />
+            </div>
+            <div>
+              <label for="chartType" class="block mb-1 text-sm">Order Type</label>
+              <select id="chartType" class="px-3 py-2 rounded text-black">
+                <option value="Buy">Buy</option>
+                <option value="Sell">Sell</option>
+              </select>
+            </div>
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-white">Place Order</button>
+          </form>
+        </div>
+      
+        <script type="text/javascript">
+          function loadTradingViewWidget() {
+            if (document.getElementById("tradingview_advanced_chart").children.length > 0) return;
+            new TradingView.widget({
+              "width": "100%",
+              "height": 600,
+              "symbol": "AAPL",
+              "interval": "D",
+              "timezone": "Etc/UTC",
+              "theme": "dark",
+              "style": "1",
+              "locale": "en",
+              "toolbar_bg": "#1f2937",
+              "enable_publishing": false,
+              "allow_symbol_change": true,
+              "container_id": "tradingview_advanced_chart"
+            });
+          }
+        </script>
+        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+      </div>
+      
+      <div id="screener" class="section hidden">
+        <h2 style="margin-bottom: 30px;" class="text-4xl mb-4">Stock Screener :</h2>
+        <div class="flex items-center flex-wrap gap-4 mb-6">
+          <select id="filterSector" class="px-3 py-2 rounded text-black">
+            <option value="">All Sectors</option>
+            <option value="Technology">Technology</option>
+            <option value="Finance">Finance</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Energy">Energy</option>
+            <option value="Consumer Defensive">Consumer Defensive</option>
+            <option value="Industrials">Industrials</option>
+          </select>
+          <select id="filterChange" class="px-3 py-2 rounded text-black">
+            <option value="">All</option>
+            <option value="gainers">Gainers</option>
+            <option value="losers">Losers</option>
+          </select>
+          <select id="sortKey" class="px-3 py-2 rounded text-black">
+            <option value="">Sort By</option>
+            <option value="priceAsc">Price ↑</option>
+            <option value="priceDesc">Price ↓</option>
+            <option value="volume">Volume</option>
+            <option value="change">Change %</option>
+          </select>
+        
+          <!-- 💫 Spinner next to filters -->
+          <div id="screenerLoader" class="inline-block text-white hidden animate-spin text-xl">
+            🔄
+          </div>
+        </div>
+        
+        <table class="min-w-full text-sm">
+          <thead class="bg-gray-700">
+            <tr>
+              <th class="p-3 text-left">Ticker</th>
+              <th class="p-3 text-left">Price</th>
+              <th class="p-3 text-left">Change %</th>
+              <th class="p-3 text-left">Signal</th>
+              <th class="p-3 text-left">Volume</th>
+              <th class="p-3 text-left">Market Cap</th>
+              <th class="p-3 text-left">P/E</th>
+              <th class="p-3 text-left">EPS</th>
+              <th class="p-3 text-left">Action</th>
+            </tr>
+          </thead>
+          <tbody id="screenerTableBody" class="divide-y divide-gray-600"></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <div class="chatbot-icon" onclick="toggleChat()">
+    <img src="../videos/download.png" alt="Chatbot">
+  </div>
+
+  <div class="chat-window" id="chatWindow">
+    <video class="chat-bg-video" autoplay muted loop>
+      <source src="../videos/Untitled video - Made with Clipchamp.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="chat-overlay">
+      <div class="chat-header">Assistant</div>
+      <div class="chat-body" id="chatBody">
+        <p><strong>Bot:</strong> Hello! How can I help you?</p>
+        <p class="typing-indicator" id="typingIndicator" style="display:none;">Bot is typing...</p>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Type a message...">
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="UI.js"> </script>
+</body>
+</html>
